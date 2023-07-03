@@ -1,7 +1,7 @@
 const { json } = require("express");
 const User = require("../models/userModel");
-const sendEmail = require("../utills/email");
-const sendToken = require("../utills/jwt");
+const sendEmail = require("../utils/email");
+const sendToken = require("../utils/jwt");
 const crypto = require("crypto");
 
 // Register User - /api/register
