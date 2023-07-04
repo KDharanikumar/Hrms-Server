@@ -3,7 +3,7 @@ const APIFeatures = require("../utils/apiFeatures");
 
 // Get All News - /api/news
 exports.getNews = async (req, res, next) => {
-	const resPerPage = 3;
+	const resPerPage = 5;
 	const apiFeatures = new APIFeatures(News.find(), req.query).search().paginate(resPerPage);
 
 	const news = await apiFeatures.query;
