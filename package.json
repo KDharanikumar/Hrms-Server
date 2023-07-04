@@ -18,7 +18,7 @@
 	},
 	"homepage": "https://github.com/KDharanikumar/Hrms-Server#readme",
 	"dependencies": {
-		"bcrypt": "^5.1.0",
+		"bcrypt": "^5.0.1",
 		"cookie-parser": "^1.4.6",
 		"cors": "^2.8.5",
 		"crypto": "^1.0.1",
@@ -30,6 +30,6 @@
 		"validator": "^13.9.0"
 	},
 	"devDependencies": {
-		"nodemon": "^2.0.22"
+		"nodemon": "^1.14.9"
 	}
 }
