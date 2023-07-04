@@ -1,13 +1,18 @@
 const News = require("../models/newsModel");
+const APIFeatures = require("../utils/apiFeatures");
 
 // Get All News - /api/news
-exports.getnews = async (req, res, next) => {
-	const news = await News.find();
+exports.getNews = async (req, res, next) => {
+	const resPerPage = 2;
+	const apiFeatures = new APIFeatures(News.find(), req.query).search().paginate(resPerPage);
+
+	const news = await apiFeatures.query;
 
 	// Loading Time Out
 	// await new Promise((resolve) => setTimeout(resolve, 5000));
 	res.status(200).json({
 		success: true,
+		count: news.length,
 		news,
 	});
 };

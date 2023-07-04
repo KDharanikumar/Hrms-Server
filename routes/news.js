@@ -1,9 +1,9 @@
 const express = require("express");
-const { getnews, newNews, getSingleNews, updateNews, deleteNews } = require("../controllers/newsController");
+const { getNews, newNews, getSingleNews, updateNews, deleteNews } = require("../controllers/newsController");
 const router = express.Router();
 const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/authenticate");
 
-router.route("/news").get(getnews);
+router.route("/news").get(getNews);
 // router.route("/news/new").post(isAuthenticatedUser, authorizeRoles("admin"), newNews);
 router.route("/news/:id").get(getSingleNews);
 router.route("/news/:id").put(updateNews);
