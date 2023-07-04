@@ -3,14 +3,12 @@ const APIFeatures = require("../utils/apiFeatures");
 
 // Get All News - /api/news
 exports.getNews = async (req, res, next) => {
-	const resPerPage = 4;
+	const resPerPage = 3;
 	const apiFeatures = new APIFeatures(News.find(), req.query).search().paginate(resPerPage);
 
 	const news = await apiFeatures.query;
 	const totalNewsCount = await News.countDocuments({});
 
-	// Loading Time Out
-	// await new Promise((resolve) => setTimeout(resolve, 5000));
 	res.status(200).json({
 		success: true,
 		count: totalNewsCount,
