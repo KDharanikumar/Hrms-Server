@@ -1,4 +1,4 @@
-const Todo = require("../models/toDoModel");
+const Todo = require("../models/todoModel");
 
 // Get All News - /api/todo
 exports.gettodo = async (req, res, next) => {
