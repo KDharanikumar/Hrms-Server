@@ -6,13 +6,38 @@ const crypto = require("crypto");
 
 // Register User - /api/register
 
+// exports.registerUser = async (req, res, next) => {
+// 	const { name, email, password } = req.body;
+
+// 	let avatar;
+// 	if (req.file) {
+// 		avatar = `${req.protocol}://${req.host}/uploads/user/${req.file.originalname}`;
+// 	}
+// 	try {
+// 		const createdUser = await User.create({
+// 			name,
+// 			email,
+// 			password,
+// 			avatar,
+// 		});
+
+// 		sendToken(createdUser, 201, res);
+// 	} catch (error) {
+// 		res.status(500).json({
+// 			success: false,
+// 			error: error.message,
+// 		});
+// 	}
+// };
+
 exports.registerUser = async (req, res, next) => {
 	const { name, email, password } = req.body;
 
 	let avatar;
 	if (req.file) {
-		avatar = `${req.protocol}://${req.host}/uploads/user/${req.file.originalname}`;
+		avatar = `${req.protocol}://${req.get("host")}/uploads/user/${req.file.filename}`;
 	}
+
 	try {
 		const createdUser = await User.create({
 			name,
