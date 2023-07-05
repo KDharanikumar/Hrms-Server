@@ -14,14 +14,14 @@ exports.registerUser = async (req, res, next) => {
 		avatar = `${req.protocol}://${req.host}/uploads/user/${req.file.originalname}`;
 	}
 	try {
-		const createdUser = await User.create({
+		const user = await User.create({
 			name,
 			email,
 			password,
 			avatar,
 		});
 
-		sendToken(createdUser, 201, res);
+		sendToken(user, 201, res);
 	} catch (error) {
 		res.status(500).json({
 			success: false,
