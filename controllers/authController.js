@@ -248,21 +248,6 @@ exports.updateUser = async (req, res, next) => {
 	});
 };
 
-// Admin Control : Delete User -  /api/admin/user/id
-
-// exports.deleteUser = async (req, res, next) => {
-// 	const user = await User.findById(req.params.id);
-
-// 	if (!user) {
-// 		return next(`User Not Found with this id ${req.params.id}`);
-// 	}
-// 	await user.remove;
-
-// 	res.status(200).json({
-// 		success: true,
-// 	});
-// };
-
 exports.deleteUser = async (req, res, next) => {
 	try {
 		const user = await User.findById(req.params.id);
