@@ -11,7 +11,7 @@ exports.registerUser = async (req, res, next) => {
 
 	let avatar;
 	if (req.file) {
-		avatar = `${req.protocol}://${req.host}/uploads/user/${req.file.originalname}`;
+		avatar = `${process.env.BACKEND_URL}/uploads/user/${req.file.originalname}`;
 	}
 	try {
 		const createdUser = await User.create({
