@@ -3,6 +3,8 @@ require("dotenv").config();
 const db = require("./db/connect");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const path = require("path");
+
 // Import Routes
 const news = require("./routes/news");
 const todo = require("./routes/todo");
@@ -18,8 +20,8 @@ db();
 
 // Middlewares
 app.use(express.json());
-
 app.use(cookieParser());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api", news);
 app.use("/api", todo);
