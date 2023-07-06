@@ -1,5 +1,6 @@
 const News = require("../models/newsModel");
 const APIFeatures = require("../utils/apiFeatures");
+const ErrorHandler = require("../utils/errorHandler");
 
 // Get All News - /api/news
 exports.getNews = async (req, res, next) => {
@@ -28,20 +29,56 @@ exports.newNews = async (req, res, next) => {
 };
 
 //Get Single News - /api/news/:id
+// exports.getSingleNews = async (req, res, next) => {
+// 	const news = await News.findById(req.params.id);
+
+// 	if (!news) {
+// 		return next(new ErrorHandler("News Not Found", 400));
+// 	}
+
+// 	res.status(201).json({
+// 		success: true,
+// 		news,
+// 	});
+// };
+
+// exports.getSingleNews = async (req, res, next) => {
+// 	try {
+// 		const news = await News.findById(req.params.id);
+
+// 		if (!news) {
+// 			return next(new ErrorHandler("News Not Found", 400));
+// 		}
+
+// 		res.status(200).json({
+// 			success: true,
+// 			news,
+// 		});
+// 	} catch (error) {
+// 		next(error);
+// 	}
+// };
+
+//Get Single News - /api/news/:id
 exports.getSingleNews = async (req, res, next) => {
-	const news = await News.findById(req.params.id);
+	try {
+		const news = await News.findById(req.params.id);
 
-	if (!news) {
-		res.status(404).json({
-			success: false,
-			message: "News Not Found",
+		if (!news) {
+			return next(new ErrorHandler("News Not Found", 400));
+		}
+
+		res.status(200).json({
+			success: true,
+			news,
 		});
-	}
+	} catch (error) {
+		if (error.name === "CastError" && error.kind === "ObjectId") {
+			return next(new ErrorHandler("Invalid News ID", 400));
+		}
 
-	res.status(201).json({
-		success: true,
-		news,
-	});
+		next(error);
+	}
 };
 
 //Update News - /api/news/:id

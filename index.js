@@ -4,6 +4,7 @@ const db = require("./db/connect");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const errorMiddleware = require("./middlewares/error");
 
 // Import Routes
 const news = require("./routes/news");
@@ -26,6 +27,8 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api", news);
 app.use("/api", todo);
 app.use("/api", auth);
+
+app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 8000;
 
