@@ -57,8 +57,8 @@ userSchema.methods.getJwtToken = function () {
 	});
 };
 
-userSchema.methods.isValidPassword = async function (enteredpassword) {
-	return bcrypt.compare(enteredpassword, this.password);
+userSchema.methods.isValidPassword = async function (enteredPassword) {
+	return bcrypt.compare(enteredPassword, this.password);
 };
 
 userSchema.methods.getResetToken = function () {
@@ -69,11 +69,10 @@ userSchema.methods.getResetToken = function () {
 	this.resetPasswordToken = crypto.createHash("sha256").update(token).digest("hex");
 
 	// Set Token Expire Time
-
 	this.resetPasswordTokenExpire = Date.now() + 30 * 60 * 1000;
 
 	return token;
 };
 
-let model = mongoose.model("user", userSchema);
+let model = mongoose.model("User", userSchema);
 module.exports = model;

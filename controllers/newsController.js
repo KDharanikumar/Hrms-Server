@@ -1,9 +1,10 @@
 const News = require("../models/newsModel");
 const APIFeatures = require("../utils/apiFeatures");
 const ErrorHandler = require("../utils/errorHandler");
+const catchAsyncError = require("../middlewares/catchAsyncError");
 
 // Get All News - /api/news
-exports.getNews = async (req, res, next) => {
+exports.getNews = catchAsyncError(async (req, res, next) => {
 	const resPerPage = 3;
 	const apiFeatures = new APIFeatures(News.find(), req.query).search().paginate(resPerPage);
 
@@ -16,17 +17,17 @@ exports.getNews = async (req, res, next) => {
 		resPerPage,
 		news,
 	});
-};
+});
 
 // Create New News - /api/news/new
-exports.newNews = async (req, res, next) => {
+exports.newNews = catchAsyncError(async (req, res, next) => {
 	req.body.user = req.user.id;
 	const news = await News.create(req.body);
 	res.status(201).json({
 		success: true,
 		news,
 	});
-};
+});
 
 //Get Single News - /api/news/:id
 // exports.getSingleNews = async (req, res, next) => {

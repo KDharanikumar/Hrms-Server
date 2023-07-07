@@ -22,6 +22,17 @@ class APIFeatures {
 		this.query = this.query.limit(resPerPage).skip(skip);
 		return this;
 	}
+
+	filter() {
+		const queryStrCopy = { ...this.queryStr };
+
+		// Remove Fields from Query
+		const removeFields = ["keyword", "limit", "page"];
+		removeFields.forEach((field) => delete queryStrCopy[field]);
+
+		this.query.find(queryStrCopy);
+		return this;
+	}
 }
 
 module.exports = APIFeatures;
