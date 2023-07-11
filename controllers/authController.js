@@ -1,8 +1,9 @@
-const { json } = require("express");
+const catchAsyncError = require("../middlewares/catchAsyncError");
 const User = require("../models/userModel");
 const sendEmail = require("../utils/email");
 const sendToken = require("../utils/jwt");
 const crypto = require("crypto");
+const ErrorHandler = require("../utils/errorHandler");
 
 // Register User - /api/register
 
@@ -43,8 +44,7 @@ exports.loginUser = async (req, res, next) => {
 	}
 
 	try {
-		// Find User in the database
-
+		// Find User in the database\
 		const user = await User.findOne({ email }).select("+password");
 
 		if (!user) {
@@ -55,7 +55,6 @@ exports.loginUser = async (req, res, next) => {
 		}
 
 		// Check if the provided password is valid
-
 		const isPasswordValid = await user.isValidPassword(password);
 
 		if (!isPasswordValid) {
@@ -66,7 +65,6 @@ exports.loginUser = async (req, res, next) => {
 		}
 
 		// Send token to the user
-
 		sendToken(user, 200, res);
 	} catch (error) {
 		res.status(500).json({
