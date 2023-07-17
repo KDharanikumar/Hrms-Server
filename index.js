@@ -10,6 +10,7 @@ const errorMiddleware = require("./middlewares/error");
 const news = require("./routes/news");
 const todo = require("./routes/todo");
 const auth = require("./routes/auth");
+const holiday = require("./routes/holiday");
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api", news);
 app.use("/api", todo);
 app.use("/api", auth);
+app.use("/api", holiday);
 
 app.use(errorMiddleware);
 

@@ -1,6 +1,6 @@
 const Todo = require("../models/todoModel");
 
-// Get All News - /api/todo
+// Get All ToDo - /api/todo
 exports.gettodo = async (req, res, next) => {
 	const todo = await Todo.find();
 
