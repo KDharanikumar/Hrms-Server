@@ -12,7 +12,7 @@ exports.gettodo = async (req, res, next) => {
 	});
 };
 
-// Create New News - /api/todo/new
+// Create New ToDo - /api/todo/new
 exports.newTodo = async (req, res, next) => {
 	req.body.user = req.user.id;
 	const todo = await Todo.create(req.body);
@@ -22,7 +22,7 @@ exports.newTodo = async (req, res, next) => {
 	});
 };
 
-//Get Single News - /api/todo/:id
+//Get Single ToDo - /api/todo/:id
 exports.getSingleTodo = async (req, res, next) => {
 	const todo = await Todo.findById(req.params.id);
 
@@ -39,7 +39,7 @@ exports.getSingleTodo = async (req, res, next) => {
 	});
 };
 
-//Update News - /api/todo/:id
+//Update ToDo - /api/todo/:id
 exports.updateTodo = async (req, res, next) => {
 	let todo = Todo.findById(req.params.id);
 
@@ -60,6 +60,8 @@ exports.updateTodo = async (req, res, next) => {
 		todo,
 	});
 };
+
+//Delete ToDO - /api/todo/:id
 
 exports.deleteTodo = async (req, res, next) => {
 	try {
