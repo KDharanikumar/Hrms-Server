@@ -8,7 +8,7 @@ const ErrorHandler = require("../utils/errorHandler");
 // Register User - /api/register
 
 exports.registerUser = async (req, res, next) => {
-	const { name, email, password } = req.body;
+	const { name, email, password, mobile, department, employeeId } = req.body;
 
 	let avatar;
 	if (req.file) {
@@ -20,6 +20,9 @@ exports.registerUser = async (req, res, next) => {
 			email,
 			password,
 			avatar,
+			mobile,
+			department,
+			employeeId,
 		});
 
 		sendToken(createdUser, 201, res);

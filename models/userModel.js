@@ -25,6 +25,19 @@ const userSchema = new mongoose.Schema({
 	avatar: {
 		type: String,
 	},
+
+	mobile: {
+		type: Number,
+	},
+
+	department: {
+		type: String,
+	},
+
+	employeeId: {
+		type: String,
+	},
+
 	role: {
 		type: String,
 		default: "user",
