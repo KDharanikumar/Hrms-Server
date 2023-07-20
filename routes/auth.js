@@ -42,7 +42,8 @@ router.route("/update").put(isAuthenticatedUser, (upload.single("avatar"), updat
 // Admin Routes
 
 router.route("/admin/users").get(getAllUsers);
-router.route("/admin/user/:id").get(isAuthenticatedUser, authorizeRoles("admin"), getUser);
+// router.route("/admin/user/:id").get(isAuthenticatedUser, authorizeRoles("admin"), getUser);
+router.route("/admin/user/:id").get(getUser);
 router.route("/admin/user/:id").put(isAuthenticatedUser, authorizeRoles("admin"), updateUser);
 router.route("/admin/user/:id").delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
 
