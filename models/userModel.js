@@ -38,6 +38,26 @@ const userSchema = new mongoose.Schema({
 		type: String,
 	},
 
+	birthday: {
+		type: Date,
+	},
+
+	gender: {
+		type: String,
+		enum: {
+			values: ["Male", "Female"],
+			message: "Please Select Gender",
+		},
+	},
+
+	marital: {
+		type: String,
+		enum: {
+			values: ["Single", "Married"],
+			message: "Please Select Status",
+		},
+	},
+
 	role: {
 		type: String,
 		default: "user",

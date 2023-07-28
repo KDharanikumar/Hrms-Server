@@ -3,7 +3,6 @@ const Todo = require("../models/todoModel");
 // Get All ToDo - /api/todo
 exports.gettodo = async (req, res, next) => {
 	const todo = await Todo.find();
-
 	// Loading Time Out
 	// await new Promise((resolve) => setTimeout(resolve, 5000));
 	res.status(200).json({
@@ -13,13 +12,28 @@ exports.gettodo = async (req, res, next) => {
 };
 
 // Create New ToDo - /api/todo/new
+// exports.newTodo = async (req, res, next) => {
+// 	// req.body.user = req.user.id;
+// 	const todo = await Todo.create(req.body);
+// 	res.status(201).json({
+// 		success: true,
+// 		todo,
+// 	});
+// };
+
 exports.newTodo = async (req, res, next) => {
-	req.body.user = req.user.id;
-	const todo = await Todo.create(req.body);
-	res.status(201).json({
-		success: true,
-		todo,
-	});
+	try {
+		const todo = await Todo.create(req.body);
+		res.status(201).json({
+			success: true,
+			todo,
+		});
+	} catch (error) {
+		res.status(400).json({
+			success: false,
+			error: error.message,
+		});
+	}
 };
 
 //Get Single ToDo - /api/todo/:id
@@ -29,7 +43,7 @@ exports.getSingleTodo = async (req, res, next) => {
 	if (!todo) {
 		res.status(404).json({
 			success: false,
-			message: "News Not Found",
+			message: "ToDo Not Found",
 		});
 	}
 
@@ -46,7 +60,7 @@ exports.updateTodo = async (req, res, next) => {
 	if (!todo) {
 		res.status(404).json({
 			success: false,
-			message: "News Not Found",
+			message: "ToDo Not Found",
 		});
 	}
 
@@ -62,7 +76,6 @@ exports.updateTodo = async (req, res, next) => {
 };
 
 //Delete ToDO - /api/todo/:id
-
 exports.deleteTodo = async (req, res, next) => {
 	try {
 		const todo = await Todo.findById(req.params.id);
@@ -70,7 +83,7 @@ exports.deleteTodo = async (req, res, next) => {
 		if (!todo) {
 			return res.status(404).json({
 				success: false,
-				message: "News Not Found",
+				message: "ToDo Not Found",
 			});
 		}
 
@@ -78,7 +91,7 @@ exports.deleteTodo = async (req, res, next) => {
 
 		res.status(200).json({
 			success: true,
-			message: "News Deleted",
+			message: "ToDo Deleted",
 		});
 	} catch (error) {
 		next(error);

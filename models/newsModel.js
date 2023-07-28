@@ -10,9 +10,9 @@ const newsSchema = new mongoose.Schema({
 		required: [true, "Please Enter Message"],
 	},
 
-	user: {
-		type: mongoose.Schema.Types.ObjectId,
-	},
+	// user: {
+	// 	type: mongoose.Schema.Types.ObjectId,
+	// },
 
 	createAt: {
 		type: Date,

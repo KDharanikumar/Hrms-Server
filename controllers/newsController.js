@@ -5,7 +5,7 @@ const catchAsyncError = require("../middlewares/catchAsyncError");
 
 // Get All News - /api/news
 exports.getNews = catchAsyncError(async (req, res, next) => {
-	const resPerPage = 3;
+	const resPerPage = 10;
 	const apiFeatures = new APIFeatures(News.find(), req.query).search().paginate(resPerPage);
 
 	const news = await apiFeatures.query;
@@ -20,14 +20,36 @@ exports.getNews = catchAsyncError(async (req, res, next) => {
 });
 
 // Create New News - /api/news/new
-exports.newNews = catchAsyncError(async (req, res, next) => {
-	req.body.user = req.user.id;
-	const news = await News.create(req.body);
-	res.status(201).json({
-		success: true,
-		news,
-	});
-});
+// exports.newNews = catchAsyncError(async (req, res, next) => {
+// 	// req.body.user = req.user.id;
+// 	const news = await News.create(req.body);
+// 	res.status(201).json({
+// 		success: true,
+// 		news,
+// 	});
+// });
+
+// Controller function to create a new news article
+exports.newNews = async (req, res, next) => {
+	try {
+		const { title, message } = req.body;
+
+		// Validate the data
+		if (!title || !message) {
+			return res.status(400).json({ error: "Title and message are required." });
+		}
+
+		// Create a new News object and save it to the database
+		const news = await News.create({ title, message });
+
+		// Return success response
+		res.status(201).json({ success: true, news });
+	} catch (error) {
+		// Handle any server-side error
+		console.error("Error creating news:", error);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+};
 
 //Get Single News - /api/news/:id
 // exports.getSingleNews = async (req, res, next) => {
