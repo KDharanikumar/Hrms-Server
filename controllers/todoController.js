@@ -12,15 +12,6 @@ exports.gettodo = async (req, res, next) => {
 };
 
 // Create New ToDo - /api/todo/new
-// exports.newTodo = async (req, res, next) => {
-// 	// req.body.user = req.user.id;
-// 	const todo = await Todo.create(req.body);
-// 	res.status(201).json({
-// 		success: true,
-// 		todo,
-// 	});
-// };
-
 exports.newTodo = async (req, res, next) => {
 	try {
 		const todo = await Todo.create(req.body);
