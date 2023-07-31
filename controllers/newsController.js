@@ -20,25 +20,13 @@ exports.getNews = catchAsyncError(async (req, res, next) => {
 });
 
 // Create New News - /api/news/new
-// exports.newNews = catchAsyncError(async (req, res, next) => {
-// 	// req.body.user = req.user.id;
-// 	const news = await News.create(req.body);
-// 	res.status(201).json({
-// 		success: true,
-// 		news,
-// 	});
-// });
-
-// Controller function to create a new news article
 exports.newNews = async (req, res, next) => {
 	try {
 		const { title, message } = req.body;
-
 		// Validate the data
 		if (!title || !message) {
 			return res.status(400).json({ error: "Title and message are required." });
 		}
-
 		// Create a new News object and save it to the database
 		const news = await News.create({ title, message });
 
@@ -50,37 +38,6 @@ exports.newNews = async (req, res, next) => {
 		res.status(500).json({ error: "Internal Server Error" });
 	}
 };
-
-//Get Single News - /api/news/:id
-// exports.getSingleNews = async (req, res, next) => {
-// 	const news = await News.findById(req.params.id);
-
-// 	if (!news) {
-// 		return next(new ErrorHandler("News Not Found", 400));
-// 	}
-
-// 	res.status(201).json({
-// 		success: true,
-// 		news,
-// 	});
-// };
-
-// exports.getSingleNews = async (req, res, next) => {
-// 	try {
-// 		const news = await News.findById(req.params.id);
-
-// 		if (!news) {
-// 			return next(new ErrorHandler("News Not Found", 400));
-// 		}
-
-// 		res.status(200).json({
-// 			success: true,
-// 			news,
-// 		});
-// 	} catch (error) {
-// 		next(error);
-// 	}
-// };
 
 //Get Single News - /api/news/:id
 exports.getSingleNews = async (req, res, next) => {
@@ -106,26 +63,36 @@ exports.getSingleNews = async (req, res, next) => {
 
 //Update News - /api/news/:id
 exports.updateNews = async (req, res, next) => {
-	let news = News.findById(req.params.id);
+	try {
+		let news = await News.findById(req.params.id);
 
-	if (!news) {
-		res.status(404).json({
+		if (!news) {
+			return res.status(404).json({
+				success: false,
+				message: "News Not Found",
+			});
+		}
+
+		news = await News.findByIdAndUpdate(req.params.id, req.body, {
+			new: true,
+			runValidators: true,
+		});
+
+		res.status(200).json({
+			success: true,
+			news,
+		});
+	} catch (error) {
+		// Handle any errors that occur during the update process
+		// You can send an error response or use next(error) to pass the error to the error-handling middleware
+		res.status(500).json({
 			success: false,
-			message: "News Not Found",
+			message: "Failed to update News.",
 		});
 	}
-
-	news = await News.findByIdAndUpdate(req.params.id, req.body, {
-		new: true,
-		runValidators: true,
-	});
-
-	res.status(200).json({
-		success: true,
-		news,
-	});
 };
 
+//Delete News - /api/news/:id
 exports.deleteNews = async (req, res, next) => {
 	try {
 		const news = await News.findById(req.params.id);
