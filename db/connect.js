@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-// const uri = "mongodb+srv://hrsoftware:hrsoftware@hrsoftware.nxvpbiw.mongodb.net/?retryWrites=true&w=majority";
-
 const db = async () => {
 	try {
 		await mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });

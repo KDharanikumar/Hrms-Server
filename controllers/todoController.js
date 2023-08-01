@@ -1,7 +1,6 @@
 const Todo = require("../models/todoModel");
 
 // Get All ToDo - /api/todo
-
 exports.gettodo = async (req, res, next) => {
 	const todo = await Todo.find();
 	// Loading Time Out
@@ -13,7 +12,6 @@ exports.gettodo = async (req, res, next) => {
 };
 
 // Create New ToDo - /api/todo/new
-
 exports.newTodo = async (req, res, next) => {
 	try {
 		const todo = await Todo.create(req.body);
@@ -30,7 +28,6 @@ exports.newTodo = async (req, res, next) => {
 };
 
 //Get Single ToDo - /api/todo/:id
-
 exports.getSingleTodo = async (req, res, next) => {
 	const todo = await Todo.findById(req.params.id);
 
@@ -48,7 +45,6 @@ exports.getSingleTodo = async (req, res, next) => {
 };
 
 //Update ToDo - /api/todo/:id
-
 exports.updateTodo = async (req, res, next) => {
 	let todo = Todo.findById(req.params.id);
 
@@ -71,7 +67,6 @@ exports.updateTodo = async (req, res, next) => {
 };
 
 //Delete ToDO - /api/todo/:id
-
 exports.deleteTodo = async (req, res, next) => {
 	try {
 		const todo = await Todo.findById(req.params.id);
