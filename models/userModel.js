@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
 	},
 
 	birthday: {
-		type: Date,
+		type: String,
 	},
 
 	gender: {
@@ -57,14 +57,110 @@ const userSchema = new mongoose.Schema({
 			message: "Please Select Status",
 		},
 	},
+	address: {
+		type: String,
+	},
+	state: {
+		type: String,
+	},
+
+	city: {
+		type: String,
+	},
+	postalCode: {
+		type: Number,
+	},
+
+	personName: {
+		type: String,
+	},
+
+	phone: {
+		type: Number,
+	},
+
+	relationShip: {
+		type: String,
+	},
+
+	bankName: {
+		type: String,
+	},
+
+	branch: {
+		type: String,
+	},
+
+	ifsc: {
+		type: String,
+	},
+
+	accountName: {
+		type: String,
+	},
+
+	accountNo: {
+		type: Number,
+	},
+
+	micr: {
+		type: String,
+	},
+
+	officeName: {
+		type: String,
+	},
+
+	location: {
+		type: String,
+	},
+
+	joiningDate: {
+		type: String,
+	},
+
+	probationStart: {
+		type: String,
+	},
+
+	probationEnd: {
+		type: String,
+	},
+
+	effectiveStart: {
+		type: String,
+	},
+
+	effectiveEnd: {
+		type: String,
+	},
+
+	monthlySalary: {
+		type: Number,
+	},
+
+	lpa: {
+		type: String,
+	},
+
+	reason: {
+		type: String,
+	},
 
 	role: {
 		type: String,
 		default: "user",
 	},
 
-	resetPasswordToken: String,
+	docName: {
+		type: String,
+	},
 
+	document: {
+		type: String,
+	},
+
+	resetPasswordToken: String,
 	resetPasswordTokenExpire: Date,
 
 	createdAt: {

@@ -12,6 +12,18 @@ const upload = multer({
 		},
 	}),
 });
+
+const uploadDoc = multer({
+	storage: multer.diskStorage({
+		destination: function (req, file, cb) {
+			cb(null, path.join(__dirname, "..", "uploads/documents"));
+		},
+		filename: function (req, file, cb) {
+			cb(null, file.originalname);
+		},
+	}),
+});
+
 const {
 	registerUser,
 	loginUser,
@@ -30,7 +42,9 @@ const {
 const router = express.Router();
 const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/authenticate");
 
-router.route("/register").post(upload.single("avatar"), registerUser);
+// router.route("/register").post(upload.single("avatar"), registerUser);
+// router.route("/register").post(uploadDoc.single("document"), registerUser);
+router.route("/register").post(upload.single("avatar"), uploadDoc.single("document"), registerUser);
 router.route("/login").post(loginUser);
 router.route("/logout").get(logoutUser);
 router.route("/password/forgot").post(forgotPassword);

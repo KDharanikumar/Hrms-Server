@@ -6,13 +6,51 @@ const crypto = require("crypto");
 const ErrorHandler = require("../utils/errorHandler");
 
 // Register User - /api/register
-
 exports.registerUser = async (req, res, next) => {
-	const { name, email, password, mobile, department, employeeId } = req.body;
+	const {
+		name,
+		email,
+		password,
+		mobile,
+		department,
+		employeeId,
+		birthday,
+		gender,
+		marital,
+		address,
+		state,
+		city,
+		postalCode,
+		personName,
+		phone,
+		relationShip,
+		bankName,
+		branch,
+		ifsc,
+		accountName,
+		accountNo,
+		micr,
+		officeName,
+		location,
+		joiningDate,
+		probationStart,
+		probationEnd,
+		effectiveStart,
+		effectiveEnd,
+		monthlySalary,
+		lpa,
+		reason,
+		docName,
+	} = req.body;
 
 	let avatar;
 	if (req.file) {
 		avatar = `${process.env.BACKEND_URL}/uploads/user/${req.file.originalname}`;
+	}
+
+	let document;
+	if (req.file) {
+		document = `${process.env.BACKEND_URL}/uploads/documents/${req.file.originalname}`;
 	}
 	try {
 		const createdUser = await User.create({
@@ -23,6 +61,34 @@ exports.registerUser = async (req, res, next) => {
 			mobile,
 			department,
 			employeeId,
+			birthday,
+			gender,
+			marital,
+			address,
+			state,
+			city,
+			postalCode,
+			personName,
+			phone,
+			relationShip,
+			bankName,
+			branch,
+			ifsc,
+			accountName,
+			accountNo,
+			micr,
+			officeName,
+			location,
+			joiningDate,
+			probationStart,
+			probationEnd,
+			effectiveStart,
+			effectiveEnd,
+			monthlySalary,
+			lpa,
+			reason,
+			docName,
+			document,
 		});
 
 		sendToken(createdUser, 201, res);
@@ -35,14 +101,13 @@ exports.registerUser = async (req, res, next) => {
 };
 
 // Login User - /api/login
-
 exports.loginUser = async (req, res, next) => {
 	const { email, password } = req.body;
 
 	if (!email || !password) {
 		return res.status(400).json({
 			success: false,
-			error: "Please enter email and password.",
+			error: "Please Enter Email and Password.",
 		});
 	}
 
@@ -53,7 +118,7 @@ exports.loginUser = async (req, res, next) => {
 		if (!user) {
 			return res.status(401).json({
 				success: false,
-				error: "Invalid email or password.",
+				error: "Invalid Email or Password.",
 			});
 		}
 
@@ -78,7 +143,6 @@ exports.loginUser = async (req, res, next) => {
 };
 
 // Logout User - /api/logout
-
 exports.logoutUser = (req, res, next) => {
 	res
 		.cookie("token", null, {
@@ -93,7 +157,6 @@ exports.logoutUser = (req, res, next) => {
 };
 
 // Forgot Password - /api/password/forgot
-
 exports.forgotPassword = async (req, res, next) => {
 	const user = await User.findOne({ email: req.body.email });
 	if (!user) {
@@ -104,7 +167,6 @@ exports.forgotPassword = async (req, res, next) => {
 	await user.save({ validateBeforeSave: false });
 
 	// Create Reset URL
-
 	const resetUrl = `${req.protocol}://${req.get("host")}/api/password/reset/${resetToken}`;
 
 	const message = `Your Password Reset URL is as Follows \n\n
@@ -130,7 +192,6 @@ exports.forgotPassword = async (req, res, next) => {
 };
 
 // Reset Password - /api/password/reset/:Token
-
 exports.resetPassword = async (req, res, next) => {
 	const resetPasswordToken = crypto.createHash(`sha256`).update(req.params.token).digest(`hex`);
 	const user = await User.findOne({
@@ -156,7 +217,6 @@ exports.resetPassword = async (req, res, next) => {
 };
 
 // Get User Profile - /api/myprofile
-
 exports.getUserProfile = async (req, res, next) => {
 	const user = await User.findById(req.user.id);
 	res.status(200).json({
@@ -166,18 +226,15 @@ exports.getUserProfile = async (req, res, next) => {
 };
 
 // Change Password - /api/password/change
-
 exports.changePassword = async (req, res, next) => {
 	const user = await User.findById(req.user.id).select("+password");
 
 	// Check Old Password
-
 	if (await user.isValidPassword(req.body.oldPassword)) {
 		return next("OLD Password is Incorrect", 401);
 	}
 
 	// Assigning New Password
-
 	user.password = req.body.password;
 	await user.save();
 
@@ -187,7 +244,6 @@ exports.changePassword = async (req, res, next) => {
 };
 
 // Update Profile - /api/update
-
 exports.updateProfile = async (req, res, next) => {
 	let newUserData = {
 		name: req.body.name,
@@ -212,7 +268,6 @@ exports.updateProfile = async (req, res, next) => {
 };
 
 // Admin Control : Get All Users - /api/admin/users
-
 exports.getAllUsers = async (req, res, next) => {
 	const users = await User.find();
 	res.status(200).json({
@@ -222,7 +277,6 @@ exports.getAllUsers = async (req, res, next) => {
 };
 
 // Admin Control : Get Specific Users - /api/admin/user/id
-
 exports.getUser = async (req, res, next) => {
 	const user = await User.findById(req.params.id);
 	if (!user) {
@@ -236,12 +290,40 @@ exports.getUser = async (req, res, next) => {
 };
 
 // Admin Control : Update User - /api/admin/user/id
-
 exports.updateUser = async (req, res, next) => {
 	const newUserData = {
 		name: req.body.name,
 		email: req.body.email,
 		role: req.body.role,
+		mobile: req.body.mobile,
+		department: req.body.department,
+		employeeId: req.body.employeeId,
+		birthday: req.body.birthday,
+		gender: req.body.gender,
+		marital: req.body.marital,
+		address: req.body.address,
+		state: req.body.state,
+		city: req.body.city,
+		postalCode: req.body.postalCode,
+		personName: req.body.personName,
+		phone: req.body.phone,
+		relationShip: req.body.relationShip,
+		bankName: req.body.bankName,
+		branch: req.body.branch,
+		ifsc: req.body.ifsc,
+		accountName: req.body.accountName,
+		accountNo: req.body.accountNo,
+		micr: req.body.micr,
+		officeName: req.body.officeName,
+		location: req.body.location,
+		joiningDate: req.body.joiningDate,
+		probationStart: req.body.probationStart,
+		probationEnd: req.body.probationEnd,
+		effectiveStart: req.body.effectiveStart,
+		effectiveEnd: req.body.effectiveEnd,
+		monthlySalary: req.body.monthlySalary,
+		lpa: req.body.lpa,
+		reason: req.body.reason,
 	};
 
 	const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
@@ -255,6 +337,7 @@ exports.updateUser = async (req, res, next) => {
 	});
 };
 
+// Admin Control : Delete User - /api/admin/user/id
 exports.deleteUser = async (req, res, next) => {
 	try {
 		const user = await User.findById(req.params.id);
